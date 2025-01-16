@@ -1,1 +1,9 @@
+<form action="{% url 'ajouter_favori' app_label='contrat' model_name='contrat' object_id=contrat.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Ajouter aux favoris</button>
+</form>
 
+<form action="{% url 'retirer_favori' app_label='contrat' model_name='contrat' object_id=contrat.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Retirer des favoris</button>
+</form>
