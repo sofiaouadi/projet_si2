@@ -1,0 +1,13 @@
+<h2>Alertes pour Périodes d'Essai et Renouvellements</h2>
+{% if contrats_a_alertes %}
+    <ul>
+    {% for contrat in contrats_a_alertes %}
+        <li>
+            Le contrat de {{ contrat.employe.nom }} {{ contrat.employe.prenom }} arrive à sa fin de période d'essai le {{ contrat.fin_periode_essai }}.
+            <a href="{% url 'modifier_contrat' contrat.id %}">Modifier</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucune alerte pour le moment.</p>
+{% endif %}

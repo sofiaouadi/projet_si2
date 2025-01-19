@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier un Contrat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center">Modifier un Contrat</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="type" class="form-label">Type de Contrat</label>
+                <select name="type" id="type" class="form-select" required>
+                    <option value="CDI" {% if contrat.type == "CDI" %}selected{% endif %}>CDI</option>
+                    <option value="CDD" {% if contrat.type == "CDD" %}selected{% endif %}>CDD</option>
+                    <option value="Stage" {% if contrat.type == "Stage" %}selected{% endif %}>Stage</option>
+                    <option value="Autre" {% if contrat.type == "Autre" %}selected{% endif %}>Autre</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="dateD" class="form-label">Date de Début</label>
+                <input type="date" name="dateD" id="dateD" class="form-control" value="{{ contrat.dateD }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="dateF" class="form-label">Date de Fin</label>
+                <input type="date" name="dateF" id="dateF" class="form-control" value="{{ contrat.dateF }}">
+            </div>
+            <div class="mb-3">
+                <label for="salaire" class="form-label">Salaire</label>
+                <input type="number" name="salaire" id="salaire" class="form-control" value="{{ contrat.salaire }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="contratEmp" class="form-label">Employé</label>
+                <select name="contratEmp" id="contratEmp" class="form-select" required>
+                    {% for employe in employes %}
+                    <option value="{{ employe.id }}" {% if contrat.contratEmp.id == employe.id %}selected{% endif %}>
+                        {{ employe.nom }} {{ employe.prenom }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Modifier</button>
+        </form>
+        <a href="{% url 'liste_contrats' %}" class="btn btn-secondary mt-3">Retour à la liste des contrats</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
