@@ -5,11 +5,23 @@ from .models import personnel, service, Contrat
 
 
 def home(request):
-    # Récupérer les contrats proches de la fin de période d'essai (30 jours avant)
     today = date.today()
-    alertes_contrats = Contrat.objects.filter(fin_periode_essai__lte=today + timedelta(days=30))
+    # Récupérer les contrats dont la période d'essai est finie ou proche de la fin
+    alertes = Contrat.objects.filter(
+        dateD__lte=today,  # Le contrat a déjà commencé
+        dateF__gte=today - timedelta(days=30)  # Période d'essai finissant dans les 30 prochains jours
+    )
 
-    return render(request, 'home.html', {'alertes_contrats': alertes_contrats})
+    contrats_a_alertes = []
+    for contrat in alertes:
+        # Calcul de la fin de la période d'essai
+        if contrat.periode_essai:
+            periode_essai_fin = contrat.dateD + timedelta(days=contrat.periode_essai)
+            # Si la période d'essai est terminée ou proche de se terminer
+            if periode_essai_fin <= today:
+                contrats_a_alertes.append(contrat)
+
+    return render(request, 'home.html', {'contrats_a_alertes': contrats_a_alertes})
 
 def liste_personnel(request):  # Changer le nom pour éviter le conflit
     # ✅ Récupérer tous les employés avec leur service
@@ -98,18 +110,40 @@ def supprimer_contrat(request, contrat_id):
         return redirect('liste_contrats')
     return render(request, 'contrats/supprimercontrat.html', {'contrat': contrat})
 
-#alerte de fin de contrat
-def alertes_contrats(request):
-    # Alertes sur les contrats proches de la fin de période d'essai
-    today = date.today()
-    alertes = Contrat.objects.filter(
-        date_debut__lte=today,  # Le contrat a déjà commencé
-        date_debut__gte=today - timedelta(days=30),  # Si la période d'essai va finir dans les 30 prochains jours
+#rechercher un contrat
+def rechercher_contrats(request):
+    query = request.GET.get('q', '')
+    contrats = Contrat.objects.filter(
+        Q(type__icontains=query) |
+        Q(contratEmp__nom__icontains=query) |
+        Q(dateD__icontains=query)
     )
- # Récupère les contrats dont la période d'essai va bientôt se terminer
+    return render(request, 'contrats/recherchercontrats.html', {'contrats': contrats, 'query': query})
+
+
+# Alerte de fin de contrat
+def alertes_contrats(request):
+    today = date.today()
+
+    # On suppose que la période d'essai est de 3 mois (par exemple), ajuster selon les règles réelles.
+    # Si la période d'essai est à partir du début du contrat
+    alertes = Contrat.objects.filter(
+        dateD__lte=today,  # Le contrat a déjà commencé
+        dateF__gte=today - timedelta(days=30),  # Et la fin de contrat n'est pas dépassée
+    )
+
     contrats_a_alertes = []
     for contrat in alertes:
-        if contrat.fin_periode_essai <= today:
-            contrats_a_alertes.append(contrat)
+        # Calcul de la fin de la période d'essai (par exemple, 3 mois après le début du contrat)
+        if contrat.periode_essai:
+            periode_essai_fin = contrat.dateD + timedelta(days=contrat.periode_essai)
+            if periode_essai_fin <= today:
+                contrats_a_alertes.append(contrat)
+    
+    # Vérification des contrats à alerter
+    if contrats_a_alertes:
+        print(f"Contrats à alerter : {contrats_a_alertes}")
+    else:
+        print("Aucun contrat à alerter.")
 
     return render(request, 'contrats/alertes.html', {'contrats_a_alertes': contrats_a_alertes})
