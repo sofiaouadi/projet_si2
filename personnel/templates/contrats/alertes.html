@@ -1,13 +1,39 @@
-<h2>Alertes pour Périodes d'Essai et Renouvellements</h2>
-{% if contrats_a_alertes %}
-    <ul>
-    {% for contrat in contrats_a_alertes %}
-        <li>
-            Le contrat de {{ contrat.employe.nom }} {{ contrat.employe.prenom }} arrive à sa fin de période d'essai le {{ contrat.fin_periode_essai }}.
-            <a href="{% url 'modifier_contrat' contrat.id %}">Modifier</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+  <h2>Alertes de fin de période d'essai</h2>
+  
+  {% if contrats_a_alertes %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nom de l'employé</th>
+          <th scope="col">Type de contrat</th>
+          <th scope="col">Date de début</th>
+          <th scope="col">Date de fin</th>
+          <th scope="col">Période d'essai terminée le</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contrat in contrats_a_alertes %}
+          <tr>
+            <td>{{ contrat.contratEmp.nom }} {{ contrat.contratEmp.prenom }}</td>
+            <td>{{ contrat.get_type_display }}</td>
+            <td>{{ contrat.dateD }}</td>
+            <td>{{ contrat.dateF }}</td>
+            <td>{{ contrat.dateD|add:"90 days" }}</td> <!-- Calcul de la fin de période d'essai -->
+            <td>
+              <a href="{% url 'modifier_contrat' contrat.id %}" class="btn btn-primary">Modifier</a>
+              <a href="{% url 'supprimer_contrat' contrat.id %}" class="btn btn-danger">Archiver</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
     <p>Aucune alerte pour le moment.</p>
-{% endif %}
+  {% endif %}
+  
+{% endblock %}
