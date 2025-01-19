@@ -1,9 +1,147 @@
-<form action="{% url 'ajouter_favori' app_label='contrat' model_name='contrat' object_id=contrat.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Ajouter aux favoris</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard RH - Complet</title>
 
-<form action="{% url 'retirer_favori' app_label='contrat' model_name='contrat' object_id=contrat.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Retirer des favoris</button>
-</form>
+    <!-- Lien vers Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Lien vers votre CSS personnalisé -->
+    <link rel="stylesheet" href="{% static 'style/Shome.css' %}">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- En-tête -->
+    <header class="bg-primary text-white text-center py-5">
+        <h1>Gestion RH</h1>
+        <p class="lead">Gérez vos ressources humaines avec élégance et efficacité</p>
+    </header>
+
+    <!-- Barre de recherche -->
+    <div class="container my-4">
+        <div class="search-bar d-flex justify-content-center">
+            <input type="text" placeholder="Rechercher..." class="form-control w-50 search-input">
+        </div>
+    </div>
+
+    <!-- Tableau de bord -->
+    <div class="container">
+        <div class="row g-4">
+            <!-- Carte Favoris -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-star-fill card-icon text-warning"></i>
+                        <h5 class="card-title mt-3">Favoris</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Personnel -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="{% url 'employe' %}">    <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-person-fill card-icon text-primary"></i>
+                        <h5 class="card-title mt-3">Personnel</h5> </a> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Évaluation et Performances -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up-arrow card-icon text-success"></i>
+                         <h5 class="card-title mt-3">Évaluation et Performances</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Salaire et Paie -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-cash-coin card-icon text-info"></i>
+                        <h5 class="card-title mt-3">Salaire et Paie</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Ajouter Salaire -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-plus-circle-fill card-icon text-primary"></i>
+                        <h5 class="card-title mt-3">Ajouter Salaire</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Congés -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check-fill card-icon text-warning"></i>
+                        <h5 class="card-title mt-3">Congés</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Contrats -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="{% url 'liste_contrats' %}">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-file-earmark-text-fill card-icon text-secondary"></i>
+                        <h5 class="card-title mt-3">Contrats</h5>
+                    </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Recrutement -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-person-lines-fill card-icon text-danger"></i>
+                        <h5 class="card-title mt-3">Recrutement</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Candidatures et Entretiens -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-person-check-fill card-icon text-info"></i>
+                        <h5 class="card-title mt-3">Candidatures et Entretiens</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Tableaux de Bord -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-bar-chart-fill card-icon text-success"></i>
+                        <h5 class="card-title mt-3">Tableaux de Bord</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 - Dashboard RH. Tous droits réservés.</p>
+    </footer>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
