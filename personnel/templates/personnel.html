@@ -1,0 +1,54 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerer Personnel</title>
+    <link rel="stylesheet" href="{% static 'style/Spersonnel.css' %}">
+</head>
+<body>
+
+    {% block content %}
+    <div class="container">
+        <h2 class="my-4 text-center">Liste des Employés</h2>
+    
+        <table class="table table-bordered table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Date de naissance</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Poste</th>
+                    <th>Date d'embauche</th>
+                    <th>Adresse</th>
+                    <th>Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emp in personnel %}
+                <tr>
+                    <td>{{ emp.nom }}</td>
+                    <td>{{ emp.prenom }}</td>
+                    <td>{{ emp.dateN|date:"d/m/Y" }}</td>
+                    <td>{{ emp.numT }}</td>
+                    <td>{{ emp.email }}</td>
+                    <td>{{ emp.posteOccupe }}</td>
+                    <td>{{ emp.dateEmbauche|date:"d/m/Y" }}</td>
+                    <td>{{ emp.adresse }}</td>
+                    <td>{{ emp.serviceEmp.nom }}</td>  <!-- Affichage du service -->
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center">Aucun employé trouvé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+</body>
+</html>
