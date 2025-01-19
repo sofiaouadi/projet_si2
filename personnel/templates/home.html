@@ -14,6 +14,9 @@
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    
+    <!-- Lien vers le fichier CSS -->
+    <link rel="stylesheet" href="{% static 'css/alertes.css' %}">
 </head>
 <body>
     <!-- En-tête -->
@@ -103,6 +106,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Carte Alertes -->
+<div class="col-lg-3 col-md-4 col-sm-6">
+    <a href="{% url 'alertes_contrats' %}">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <i class="bi bi-bell-fill card-icon text-danger text-secondary"></i>
+                <h5 class="card-title mt-3">Alertes</h5>
+                
+
+                <!-- Affichage des alertes -->
+                {% if contrats_a_alertes %}
+                    <ul class="alertes-list">
+                        {% for contrat in contrats_a_alertes %}
+                            <li>
+                                Contrat pour {{ contrat.contratEmp.nom }} - Période d'essai finie depuis {{ contrat.dateF }}.
+                                Date de fin : {{ contrat.dateF }}.
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune alerte de fin de période d'essai.</p>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>
+
 
             <!-- Carte Recrutement -->
             <div class="col-lg-3 col-md-4 col-sm-6">
