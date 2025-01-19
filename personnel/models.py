@@ -73,22 +73,23 @@ class Contrat(models.Model):
     dateF = models.DateField(null=True, blank=True)
     salaire = models.FloatField(null=True, blank=True)  # Supprimez max_length
     contratEmp = models.ForeignKey(personnel, on_delete=models.CASCADE)
-    """periode_essai = models.PositiveIntegerField()  # en jours
-    renouveler = models.BooleanField(default=False)"""
-
+    periode_essai = models.IntegerField(default=0, help_text="Durée de la période d'essai en jours")
+    est_renouvelle = models.BooleanField(default=False)
+    
 def clean(self):
         """Validation pour vérifier que dateF est après dateD."""
         if self.dateF and self.dateD and self.dateF <= self.dateD:
             raise ValidationError("La date de fin doit être postérieure à la date de début.")
 
+def get_date_fin_periode_essai(self):
+        """Retourne la date de fin de la période d'essai."""
+        if self.dateD and self.periode_essai:
+            return self.dateD + timedelta(days=self.periode_essai)
+        return None
+
 def __str__(self):
         return f"{self.type} - {self.contratEmp.nom} ({self.dateD} à {self.dateF})"
 
-"""def fin_periode_essai(self):
-        return self.date_debut + timedelta(days=self.periode_essai)
-
-def fin_contrat(self):
-        return self.date_fin if self.date_fin else self.date_debut"""
 
 class evaluation(models.Model):
     dateEv = models.DateField(null=True, blank=True)
