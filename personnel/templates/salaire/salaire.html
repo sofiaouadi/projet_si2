@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Salaires</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style/salaire.css' %}">
+</head>
+<body>
+    <header class="top-bar text-center py-4 bg-primary text-white">
+        <h1>Gestion des Salaires</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Choisissez une action</h2>
+        <div class="text-center">
+            <a href="{% url 'ajouter_salaire' %}" class="btn btn-success btn-lg shadow mb-3">Ajouter un Salaire</a>
+            <a href="{% url 'afficher_salaire' %}" class="btn btn-primary btn-lg shadow">Afficher les Salaires</a>
+        </div>
+    </div>
+    <form method="post" action="{% url 'add_favoris' %}">
+        {% csrf_token %}
+        <input type="hidden" name="name" value="Afficher Salaires">
+        <input type="hidden" name="link" value="{% url 'afficher_salaire' %}">
+        <button type="submit" class="btn btn-outline-warning">
+            <i class="bi bi-star"></i> Ajouter aux favoris
+        </button>
+    </form>
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 - Gestion RH</p>
+    </footer>
+
+</body>
+</html>
