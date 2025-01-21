@@ -1,1 +1,44 @@
+/* Styles pour la carte Alertes */
+.card {
+    border: 1px solid #ddd;  /* Bordure autour de la carte */
+    border-radius: 8px;  /* Coins arrondis */
+    padding: 15px;
+}
 
+.card-body {
+    padding: 15px;
+}
+
+.card-icon {
+    font-size: 40px;
+    color: #f31212; /* Couleur pour l'icône */
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Styles pour la liste des alertes */
+.alertes-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #f39c12;  /* Couleur des alertes */
+}
+
+.alertes-list li {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.alertes-list li:last-child {
+    border-bottom: none;
+}
+
+/* Message lorsqu'il n'y a pas d'alertes */
+.card-body p {
+    color: #888;  /* Gris clair pour le message */
+}
