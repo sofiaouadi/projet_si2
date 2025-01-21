@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modifier un Employé</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="nom" name="nom" value="{{ employe.nom }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" class="form-control" id="prenom" name="prenom" value="{{ employe.prenom }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="dateN" class="form-label">Date de Naissance</label>
+            <input type="date" class="form-control" id="dateN" name="dateN" value="{{ employe.dateN|date:'Y-m-d' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="numT" class="form-label">Numéro de Téléphone</label>
+            <input type="text" class="form-control" id="numT" name="numT" value="{{ employe.numT }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ employe.email }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="posteOccupe" class="form-label">Poste Occupé</label>
+            <input type="text" class="form-control" id="posteOccupe" name="posteOccupe" value="{{ employe.posteOccupe }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="dateEmbauche" class="form-label">Date d'Embauche</label>
+            <input type="date" class="form-control" id="dateEmbauche" name="dateEmbauche" value="{{ employe.dateEmbauche|date:'Y-m-d' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="adresse" class="form-label">Adresse</label>
+            <input type="text" class="form-control" id="adresse" name="adresse" value="{{ employe.adresse }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="serviceEmp" class="form-label">Service</label>
+            <input type="text" class="form-control" id="serviceEmp" name="serviceEmp" value="{{ employe.serviceEmp.nom }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

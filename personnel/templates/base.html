@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerer RH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style/base.css' %}?v={{ STATIC_VERSION }}">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <button class="btn btn-light" id="menu-toggle">
+                <i class="bi bi-list"></i>
+            </button>
+            <span class="navbar-brand ms-3">Gerer RH</span>
+            <button class="btn btn-outline-light ms-auto" onclick="history.back();">
+                Retour
+            </button>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="bg-light">
+            <ul class="list-unstyled">
+                <li><a href="#" class="text-decoration-none">Gérer Personnel</a></li>
+                <li><a href="#" class="text-decoration-none">Ajouter Personnel</a></li>
+                <li><a href="#" class="text-decoration-none">Afficher Liste des Personnel</a></li>
+            </ul>
+           <!-- <button class="btn btn-secondary w-100 mt-3" id="hide-sidebar">Masquer</button>-->
+        </div>
+
+        <!-- Main Content -->
+        <div class="p-4 w-100" id="content">
+            {% block content %}
+            <!-- Vos contenus ici -->
+            {% endblock %}
+        </div>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const hideSidebar = document.getElementById('hide-sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show-sidebar');
+        });
+
+        hideSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('show-sidebar');
+        });
+    </script>
+</body>
+</html>
