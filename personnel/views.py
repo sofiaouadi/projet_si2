@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from datetime import date , timedelta
-from .models import personnel, service, Contrat
+from .models import personnel, service, Contrat, Favoris, salaire
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 
 def home(request):
@@ -32,6 +35,16 @@ def liste_personnel(request):  # Changer le nom pour éviter le conflit
 def employe(request):
     return render(request, 'employe.html')
 
+def supprimer_employe(request, emp_id):
+    emp = get_object_or_404(personnel, id=emp_id)
+
+    if request.method == 'POST':
+        emp.delete()
+        return redirect('personnel')
+
+    return render(request, 'confirmer_suppression.html', {'employe': emp})
+
+
 def ajouter_employe(request):
     if request.method == 'POST':
         nom = request.POST['nom']
@@ -58,6 +71,29 @@ def ajouter_employe(request):
         )
         return redirect('personnel')
     return render(request, 'ajouteremploye.html')
+
+def modifier_employe(request, emp_id):
+    emp = get_object_or_404(personnel, id=emp_id)
+
+    if request.method == 'POST':
+        emp.nom = request.POST.get('nom')
+        emp.prenom = request.POST.get('prenom')
+        emp.dateN = request.POST.get('dateN')  # Assurez-vous que le champ "date de naissance" est bien présent
+        emp.numT = request.POST.get('numT')  # Numéro de téléphone
+        emp.email = request.POST.get('email')
+        emp.posteOccupe = request.POST.get('posteOccupe')
+        emp.dateEmbauche = request.POST.get('dateEmbauche')
+        emp.adresse = request.POST.get('adresse')
+
+        # Mise à jour du service lié
+        service_nom = request.POST.get('serviceEmp')
+        service_obj, created = service.objects.get_or_create(nom=service_nom)
+        emp.serviceEmp = service_obj
+
+        emp.save()
+        return redirect('personnel')
+
+    return render(request, 'modifier_employe.html', {'employe': emp})
 
 #lister les contrats
 def liste_contrats(request):
@@ -110,7 +146,7 @@ def supprimer_contrat(request, contrat_id):
         return redirect('liste_contrats')
     return render(request, 'contrats/supprimercontrat.html', {'contrat': contrat})
 
-#rechercher un contrat
+
 def rechercher_contrats(request):
     query = request.GET.get('q', '')
     contrats = Contrat.objects.filter(
@@ -119,6 +155,59 @@ def rechercher_contrats(request):
         Q(dateD__icontains=query)
     )
     return render(request, 'contrats/recherchercontrats.html', {'contrats': contrats, 'query': query})
+
+def gestion_salaire(request):
+    return render(request, 'salaire/salaire.html')
+
+def afficher_salaire(request):
+    salaires = salaire.objects.all()
+    return render(request, 'salaire/affichersalaire.html', {'salaires': salaires})
+
+def ajouter_salaire(request):
+    employes = personnel.objects.all()
+    if request.method == 'POST':
+        employe_id = request.POST['employe']
+        employe = personnel.objects.get(id=employe_id)
+        salaire_base = float(request.POST['salaireBase'])
+        prime = float(request.POST.get('prime', 0))
+        heure_sup = float(request.POST.get('heureSup', 0))
+        avance = float(request.POST.get('avance', 0))
+        jour_absence = float(request.POST.get('jourAbsence', 0))
+        salaire_final = salaire_base + prime + heure_sup - (avance + jour_absence * 100)
+
+        salaire.objects.create(
+            SalaireEmp=employe,
+            salaireBase=salaire_base,
+            Prime=prime,
+            heure_Sup=heure_sup,
+            avance=avance,
+            jourAbsence=jour_absence,
+            salaireF=salaire_final
+        )
+        return redirect('afficher_salaire')
+    return render(request, 'salaire/ajoutersalaire.html', {'employes': employes})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Rediriger vers la page d'accueil
+        else:
+            messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")  # Message d'erreur
+    return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def home_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  # Rediriger vers la page de connexion si non authentifié
+    return render(request, 'home.html')
 
 
 # Alerte de fin de contrat
@@ -147,3 +236,23 @@ def alertes_contrats(request):
         print("Aucun contrat à alerter.")
 
     return render(request, 'contrats/alertes.html', {'contrats_a_alertes': contrats_a_alertes})
+
+@login_required
+def favoris_view(request):
+    favoris = Favoris.objects.filter(user=request.user)
+    return render(request, 'favoris.html', {'favoris': favoris})
+
+@login_required
+def add_favoris(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        link = request.POST['link']
+        Favoris.objects.create(user=request.user, name=name, link=link)
+    return redirect('favoris')
+
+@login_required
+def remove_favoris(request):
+    if request.method == 'POST':
+        link = request.POST['link']
+        Favoris.objects.filter(user=request.user, link=link).delete()
+    return redirect('favoris')
