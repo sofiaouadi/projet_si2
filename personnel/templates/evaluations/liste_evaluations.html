@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Liste des évaluations de performance</h2>
+
+  {% if evaluations %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Employé</th>
+          <th>Manager</th>
+          <th>Date</th>
+          <th>Période</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for evaluation in evaluations %}
+          <tr>
+            <td>{{ evaluation.employe.nom }} {{ evaluation.employe.prenom }}</td>
+            <td>{{ evaluation.manager.username }}</td>
+            <td>{{ evaluation.date }}</td>
+            <td>{{ evaluation.period }}</td>
+            <td>
+              <a href="{% url 'rapport_evaluation' evaluation.id %}" class="btn btn-info">Voir le rapport</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Aucune évaluation disponible.</p>
+  {% endif %}
+  
+  <a href="{% url 'ajouter_evaluation' %}" class="btn btn-primary">Ajouter une évaluation</a>
+{% endblock %}
