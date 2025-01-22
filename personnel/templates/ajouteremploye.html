@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'style/employe.css' %}">
 </head>
 <body>
+    {% block content %}
     <div class="container mt-5">
         <h1 class="text-center mb-4">Ajouter un Employé</h1>
         <form method="post">
@@ -52,5 +54,6 @@
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>
+    {% endblock %}
 </body>
 </html>

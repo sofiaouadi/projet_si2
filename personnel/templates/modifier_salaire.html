@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Modifier le Salaire</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="salaireBase" class="form-label">Salaire de Base</label>
+            <input type="number" id="salaireBase" name="salaireBase" class="form-control" value="{{ salaire.salaireBase }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="Prime" class="form-label">Prime</label>
+            <input type="number" id="Prime" name="Prime" class="form-control" value="{{ salaire.Prime }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="heure_Sup" class="form-label">Heures Supp.</label>
+            <input type="number" id="heure_Sup" name="heure_Sup" class="form-control" value="{{ salaire.heure_Sup }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="jourAbsence" class="form-label">Jours d'Absence</label>
+            <input type="number" id="jourAbsence" name="jourAbsence" class="form-control" value="{{ salaire.jourAbsence }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="avance" class="form-label">Avance</label>
+            <input type="number" id="avance" name="avance" class="form-control" value="{{ salaire.avance }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="salaireF" class="form-label">Salaire Final</label>
+            <input type="number" id="salaireF" name="salaireF" class="form-control" value="{{ salaire.salaireF }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

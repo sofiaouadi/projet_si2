@@ -27,11 +27,17 @@
         <!-- Sidebar -->
         <div id="sidebar" class="bg-light">
             <ul class="list-unstyled">
-                <li><a href="#" class="text-decoration-none">Gérer Personnel</a></li>
-                <li><a href="#" class="text-decoration-none">Ajouter Personnel</a></li>
-                <li><a href="#" class="text-decoration-none">Afficher Liste des Personnel</a></li>
+                <li><a href="{% url 'home' %}" class="text-decoration-none">Accueil</a></li>
+                <li><a href="{% url 'favoris' %}" class="text-decoration-none">Favoris</a></li>
+                <li><a href="{% url 'employe' %}"class="text-decoration-none">Gérer Personnel</a></li>
+                <li><a href="{% url 'ajouter_employe' %}" class="text-decoration-none">Ajouter Personnel</a></li>
+                <li><a href="{% url 'personnel' %}" class="text-decoration-none">Afficher Liste des Personnel</a></li>
+                <li><a href="{% url 'liste_contrats' %}"class="text-decoration-none">Afficher Liste des contras</a></li>
+                <li><a href="{% url 'ajouter_contrat' %}"  class="text-decoration-none">Ajouter un contrat</a></li>
+                <li><a href="{% url 'dashboard' %}" class="text-decoration-none">tableau de bord</a></li>
+
             </ul>
-           <!-- <button class="btn btn-secondary w-100 mt-3" id="hide-sidebar">Masquer</button>-->
+          
         </div>
 
         <!-- Main Content -->

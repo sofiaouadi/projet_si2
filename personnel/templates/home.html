@@ -10,7 +10,7 @@
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
 
-   <link rel="stylesheet" href="{% static 'style/Shome.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="{% static 'style/Shome.css' %}?v={{ STATIC_VERSION }}">
 
 </head>
 <body>
@@ -58,10 +58,10 @@
 
           
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card text-center shadow-sm">
+                <a href="{% url 'liste_evaluations' %}"><div class="card text-center shadow-sm">
                     <div class="card-body">
                         <i class="bi bi-graph-up-arrow card-icon text-success"></i>
-                         <h5 class="card-title mt-3">Évaluation et Performances</h5>
+                         <h5 class="card-title mt-3">Évaluation et Performances</h5></a>
                     </div>
                 </div>
             </div>
@@ -80,10 +80,10 @@
 
            
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card text-center shadow-sm">
+                <a href="{% url 'liste_conges' %}">   <div class="card text-center shadow-sm">
                     <div class="card-body">
                         <i class="bi bi-calendar-check-fill card-icon text-warning"></i>
-                        <h5 class="card-title mt-3">Congés</h5>
+                        <h5 class="card-title mt-3">Congés</h5> </a>
                     </div>
                 </div>
             </div>
@@ -100,63 +100,22 @@
 
     
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card text-center shadow-sm">
+                <a href="{% url 'gestion_rec' %}"> <div class="card text-center shadow-sm">
                     <div class="card-body">
                         <i class="bi bi-person-lines-fill card-icon text-danger"></i>
-                        <h5 class="card-title mt-3">Recrutement</h5>
+                        <h5 class="card-title mt-3">Recrutement</h5> </a> 
                     </div>
                 </div>
             </div>
 
-            <!-- Carte Alertes -->
-<div class="col-lg-3 col-md-4 col-sm-6">
-    <a href="{% url 'alertes_contrats' %}" class="text-decoration-none">
-        <div class="card text-center shadow-sm border-0">
-            <div class="card-body">
-                <div class="d-flex justify-content-center align-items-center">
-                    <i class="bi bi-bell-fill card-icon text-danger fs-1"></i>
-                </div>
-                <h5 class="card-title mt-3 fw-bold text-dark">Alertes</h5>
-
-                <!-- Affichage des alertes -->
-                {% if contrats_a_alertes %}
-                <div class="alert alert-warning mt-3 text-start" role="alert">
-                    <ul class="list-unstyled mb-0">
-                        {% for alerte in contrats_a_alertes %}
-                        <li>
-                            <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
-                            Contrat pour <strong>{{ alerte.contrat.employee }}</strong> - {{ alerte.type_alerte }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% else %}
-                <p class="text-muted mt-3">
-                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                    Aucune alerte de fin de période d'essai ou de contrat.
-                </p>
-                {% endif %}
-            </div>
-        </div>
-    </a>
-</div>
-
-            
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card text-center shadow-sm">
-                    <div class="card-body">
-                        <i class="bi bi-person-check-fill card-icon text-info"></i>
-                        <h5 class="card-title mt-3">Candidatures et Entretiens</h5>
-                    </div>
-                </div>
-            </div>
+                    
 
           
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card text-center shadow-sm">
+                <a href="{% url 'dashboard' %}"> <div class="card text-center shadow-sm">
                     <div class="card-body">
                         <i class="bi bi-bar-chart-fill card-icon text-success"></i>
-                        <h5 class="card-title mt-3">Tableaux de Bord</h5>
+                        <h5 class="card-title mt-3">Tableaux de Bord</h5> </a>
                     </div>
                 </div>
             </div>
