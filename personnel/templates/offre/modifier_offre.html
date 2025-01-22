@@ -1,11 +1,9 @@
-{% extends 'base.html' %}
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une Offre</title>
+    <title>Modifier une Offre</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,13 +49,11 @@
     </style>
 </head>
 <body>
-    {% block content %}
 <form method="post">
     {% csrf_token %}
-    <h1>Ajouter une Offre</h1>
+    <h1>Modifier une Offre</h1>
     {{ form.as_p }}
-    <button type="submit">Ajouter</button>
+    <button type="submit">Modifier</button>
 </form>
-{% endblock  %}
 </body>
 </html>
